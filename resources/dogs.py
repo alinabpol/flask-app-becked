@@ -49,3 +49,23 @@ def create_dogs():
         status=201
     ), 201
 
+
+# DELETE / DESTROY 
+# DELETE api/v1/dogs/<id>
+@dogs.route('/<id>', methods=['DELETE'])
+def delete_dog(id):
+    # we are trying to delete the dog with the id that comes through as a param 
+    # check here for now: http://docs.peewee-orm.com/en/latest/peewee/querying.html#deleting-records
+    delete_query = models.Dog.delete().where(models.Dog.id == id)
+    nums_of_rows_deleted = delete_query.execute()
+    print(nums_of_rows_deleted)
+
+    #TODO: write logic -- if no rows were deleted return 
+    # some message that tells that the delete did not happen 
+
+    return jsonify(
+        data={},
+        message=f"Successfully deleted {nums_of_rows_deleted} dog with id {id}",
+        status=200
+    ), 200
+
