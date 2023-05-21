@@ -1,12 +1,8 @@
 import models
 
 from flask import Blueprint, jsonify, request
-
 from playhouse.shortcuts import model_to_dict
 
-# We can use this as a Python decorator for routing purposes
-# first argument is blueprints name
-# second argument is it's import_name
 dogs = Blueprint('dogs', 'dog')
 
 
@@ -54,14 +50,10 @@ def create_dogs():
 # DELETE api/v1/dogs/<id>
 @dogs.route('/<id>', methods=['DELETE'])
 def delete_dog(id):
-    # we are trying to delete the dog with the id that comes through as a param 
-    # check here for now: http://docs.peewee-orm.com/en/latest/peewee/querying.html#deleting-records
     delete_query = models.Dog.delete().where(models.Dog.id == id)
     nums_of_rows_deleted = delete_query.execute()
     print(nums_of_rows_deleted)
 
-    #TODO: write logic -- if no rows were deleted return 
-    # some message that tells that the delete did not happen 
 
     return jsonify(
         data={},
@@ -78,8 +70,7 @@ def update_dog(id):
 
     
     models.Dog.update(**payload).where(models.Dog.id == id).execute() 
-    # updated_dog = models.Dog.get_by_id(id)
-    # updated_dog_dict = model_to_dict(updated_dog)
+
 
     return jsonify(
         data=model_to_dict(models.Dog.get_by_id(id)), # same as lines 107, 108 

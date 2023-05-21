@@ -15,7 +15,7 @@ app = Flask(__name__)
 CORS(dogs, origins=['http://localhost:3000'],
 supports_credentials=True)
 
-
+CORS(app)
 
 @app.before_request
 def before_request():
