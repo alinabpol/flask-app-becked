@@ -6,6 +6,8 @@ from playhouse.shortcuts import model_to_dict
 dogs = Blueprint('dogs', 'dog')
 
 
+from flask_login import login_required, current_user
+
 @dogs.route('/', methods=['GET'])
 def dogs_index():
     result = models.Dog.select()
@@ -32,6 +34,7 @@ def get_one_dog(id):
 
 
 @dogs.route('/', methods=['POST'])
+@login_required
 def create_dogs():
     payload = request.get_json() # this is like req.body express 
     print(payload)
@@ -49,6 +52,7 @@ def create_dogs():
 # DELETE / DESTROY 
 # DELETE api/v1/dogs/<id>
 @dogs.route('/<id>', methods=['DELETE'])
+@login_required
 def delete_dog(id):
     delete_query = models.Dog.delete().where(models.Dog.id == id)
     nums_of_rows_deleted = delete_query.execute()
@@ -64,6 +68,7 @@ def delete_dog(id):
 # PUT UPDATE ROUTE 
 # PUT api/v1/dogs/<id>
 @dogs.route('/<id>', methods=['PUT'])
+@login_required
 def update_dog(id):
     payload = request.get_json()
     print(payload)
