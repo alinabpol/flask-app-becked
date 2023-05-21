@@ -13,7 +13,7 @@ class Dog(Model):
     class Meta:
         database = DATABASE
 
-class user(UserMixin, Model):
+class User(UserMixin, Model):
     username = CharField(unique=True)
     email = CharField(unique=True)
     password = CharField()
@@ -25,6 +25,6 @@ class user(UserMixin, Model):
 
 def initialize():
     DATABASE.connect()
-    DATABASE.create_tables([Dog, user], safe=True)
+    DATABASE.create_tables([Dog, User], safe=True)
     print("TABLES Created")
     DATABASE.close()
